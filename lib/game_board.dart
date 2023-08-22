@@ -62,11 +62,11 @@ class _GameBoardState extends State<GameBoard> {
     List<List<ChessPiece?>> newBoard =
         List.generate(8, (index) => List.generate(8, (index) => null));
 
-    //place random piece in middle to test
+    /*place random piece in middle to test
     newBoard[3][3] = ChessPiece(
         type: ChessPieceType.rook,
         isWhite: true,
-        imagePath: 'lib/images/rook.png');
+        imagePath: 'lib/images/rook.png'); */
 
     //place pawns
     for (int i = 0; i < 8; i++) {
@@ -103,7 +103,7 @@ class _GameBoardState extends State<GameBoard> {
 
     //place knights
 
-    newBoard[0][0] = ChessPiece(
+    newBoard[0][1] = ChessPiece(
         type: ChessPieceType.knight,
         isWhite: false,
         imagePath: 'lib/images/knight.png');
@@ -422,7 +422,7 @@ class _GameBoardState extends State<GameBoard> {
       if (selectedPiece!.isWhite) {
         whiteKingPosition = [newRow, newCol];
       } else {
-        whiteKingPosition = [newRow, newCol];
+        blackKingPosition = [newRow, newCol];
       }
     }
 
@@ -430,7 +430,7 @@ class _GameBoardState extends State<GameBoard> {
     board[newRow][newCol] = selectedPiece;
     board[selectedRow][selectedCol] = null;
     // see if any kings are under attack
-    if (isKingInCheck(!isWhiteTurn)) {
+    if (!isKingInCheck(isWhiteTurn)) {
       checkStatus = true;
     } else {
       checkStatus = false;
@@ -537,7 +537,7 @@ class _GameBoardState extends State<GameBoard> {
   //CHECK MATE
   bool isCheckMate(bool isWhiteKing) {
     // if the king is not in check the it's not checkmate
-    if (isCheckMate(isWhiteKing)) {
+    if (!isCheckMate(isWhiteKing)) {
       return false;
     }
     //if there is at least one legal move for any of the players's pieces then it's not checkmate
