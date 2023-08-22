@@ -32,7 +32,7 @@ class _GameBoardState extends State<GameBoard> {
 
   //a list of valid moves for the currently selected piece
   // each move is represented as a list with 2 elements : row & col
-  List<List<int>> valiseMoves = [];
+  List<List<int>> validMoves = [];
 
   //a list of white pieces that have been taken by the black player
   List<ChessPiece> whitePiecesTaken = [];
@@ -182,7 +182,7 @@ class _GameBoardState extends State<GameBoard> {
 
       //if there is a piece selected and user taps on a square that is a valid move, move there
       else if (selectedPiece != null &&
-          validMoves.any((Element) => Element[0] == row && element[1] == col)) {
+          validMoves.any((Element) => Element[0] == row && Element[1] == col)) {
         movePiece(row, col);
       }
       // if a piece is selected, calculate it's a valid moves
@@ -192,8 +192,8 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   //calculate raw valid moves
-  List<List<int>> calculateRowValidMoves(
-      int row, int colm, ChessPiece? selectedPiece) {
+  List<List<int>> calculateRawValidMoves(
+      int row, int col, ChessPiece? piece) {
     List<List<int>> candidateMoves = [];
 
     if (piece == null) {
@@ -244,8 +244,8 @@ class _GameBoardState extends State<GameBoard> {
         for (var direction in directions) {
           var i = 0;
           while (true) {
-            var newRow = row + 1 * direction[0];
-            var newCol = col + 1 * direction[1];
+            var newRow = row + i * direction[0];
+            var newCol = col + i * direction[1];
             if (!isInBoard(newRow, newCol)) {
               break;
             }
@@ -298,8 +298,8 @@ class _GameBoardState extends State<GameBoard> {
         for (var direction in directions) {
           var i = 1;
           while (true) {
-            var newRow = row + 1 * direction[0];
-            var newCol = col + 1 * direction[1];
+            var newRow = row + i * direction[0];
+            var newCol = col + i * direction[1];
             if (!isInBoard(newRow, newCol)) {
               break;
             }
@@ -386,7 +386,7 @@ class _GameBoardState extends State<GameBoard> {
   List<List<int>> calculateRealValidMoves(
       int row, int col, ChessPiece? piece, bool checkSimulation) {
     List<List<int>> realValidMoves = [];
-    List<List<int>> candidateMoves = calculateRealValidMoves(row, col, piece);
+    List<List<int>> candidateMoves = calculateRawValidMoves(row, col, piece);
 
     //after generating all candidate moves filter out any that would result in a check
     if (checkSimulation) {
@@ -441,7 +441,7 @@ class _GameBoardState extends State<GameBoard> {
       selectedPiece = null;
       selectedRow = -1;
       selectedCol = -1;
-      valiseMoves = [];
+      validMoves = [];
     });
     // check if it's checkmate
     if (isCheckMate(!isWhiteTurn)) {
