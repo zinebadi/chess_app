@@ -77,7 +77,7 @@ class _GameBoardState extends State<GameBoard> {
 
       newBoard[6][i] = ChessPiece(
           type: ChessPieceType.pawn,
-          isWhite: false,
+          isWhite: true,
           imagePath: 'lib/images/pawn.png');
     }
 
@@ -192,8 +192,7 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   //calculate raw valid moves
-  List<List<int>> calculateRawValidMoves(
-      int row, int col, ChessPiece? piece) {
+  List<List<int>> calculateRawValidMoves(int row, int col, ChessPiece? piece) {
     List<List<int>> candidateMoves = [];
 
     if (piece == null) {
@@ -453,7 +452,10 @@ class _GameBoardState extends State<GameBoard> {
           ),
           actions: [
             // play again button
-            TextButton(onPressed: resetGame, child: const Text("Play Again"))
+            TextButton(
+              onPressed: resetGame,
+              child: const Text("Play Again"),
+            ),
           ],
         ),
       );
@@ -537,7 +539,7 @@ class _GameBoardState extends State<GameBoard> {
   //CHECK MATE
   bool isCheckMate(bool isWhiteKing) {
     // if the king is not in check the it's not checkmate
-    if (!isCheckMate(isWhiteKing)) {
+    if (!isKingInCheck(isWhiteKing)) {
       return false;
     }
     //if there is at least one legal move for any of the players's pieces then it's not checkmate
