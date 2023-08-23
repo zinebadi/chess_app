@@ -48,6 +48,11 @@ class _GameBoardState extends State<GameBoard> {
   List<int> blackKingPosition = [0, 4];
   bool checkStatus = false;
 
+
+
+
+
+
   @override
   void initState() {
     //todo: implement initState
@@ -429,7 +434,7 @@ class _GameBoardState extends State<GameBoard> {
     board[newRow][newCol] = selectedPiece;
     board[selectedRow][selectedCol] = null;
     // see if any kings are under attack
-    if (!isKingInCheck(isWhiteTurn)) {
+    if (isKingInCheck(!isWhiteTurn)) {
       checkStatus = true;
     } else {
       checkStatus = false;
@@ -442,6 +447,7 @@ class _GameBoardState extends State<GameBoard> {
       selectedCol = -1;
       validMoves = [];
     });
+
     // check if it's checkmate
     if (isCheckMate(!isWhiteTurn)) {
       showDialog(
@@ -536,7 +542,7 @@ class _GameBoardState extends State<GameBoard> {
     return !kingInCheck;
   }
 
-  //CHECK MATE
+  //IS IT CHECK MATE
   bool isCheckMate(bool isWhiteKing) {
     // if the king is not in check the it's not checkmate
     if (!isKingInCheck(isWhiteKing)) {
@@ -551,6 +557,7 @@ class _GameBoardState extends State<GameBoard> {
         }
         List<List<int>> pieceValidMoves =
             calculateRealValidMoves(i, j, board[i][j], true);
+
         // if this piece has any valid move, then it not checkmate
         if (pieceValidMoves.isNotEmpty) {
           return false;
