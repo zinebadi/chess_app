@@ -10,14 +10,14 @@ class Square extends StatelessWidget {
   final void Function()? onTap;
 
   const Square({
-    super.key,
+    Key? key, // Add this named key parameter
     required this.isWhite,
     required this.piece,
     required this.isSelected,
     required this.onTap,
     required this.isValidMove,
     
-  });
+  }): super(key: key); // Call the parent class constructor with key
 
   @override
   Widget build(BuildContext context) {

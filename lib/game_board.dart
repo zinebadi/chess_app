@@ -3,10 +3,10 @@ import 'package:chess_app/helper/helper_methods.dart';
 import 'package:chess_app/values/colors.dart';
 import 'package:flutter/material.dart';
 import '../components/piece.dart';
-import 'components/dead_piece.dart';
+import '../components/dead_piece.dart';
 
 class GameBoard extends StatefulWidget {
-  const GameBoard({super.key});
+  const GameBoard({Key? key}) : super(key: key);
 
   @override
   State<GameBoard> createState() => _GameBoardState();
@@ -47,11 +47,6 @@ class _GameBoardState extends State<GameBoard> {
   List<int> whiteKingPosition = [7, 4];
   List<int> blackKingPosition = [0, 4];
   bool checkStatus = false;
-
-
-
-
-
 
   @override
   void initState() {
@@ -187,7 +182,7 @@ class _GameBoardState extends State<GameBoard> {
 
       //if there is a piece selected and user taps on a square that is a valid move, move there
       else if (selectedPiece != null &&
-          validMoves.any((Element) => Element[0] == row && Element[1] == col)) {
+          validMoves.any((element) => element[0] == row && element[1] == col)) {
         movePiece(row, col);
       }
       // if a piece is selected, calculate it's a valid moves
@@ -257,29 +252,35 @@ class _GameBoardState extends State<GameBoard> {
               if (board[newRow][newCol]!.isWhite != piece.isWhite) {
                 candidateMoves.add([newRow, newCol]); //kill
               }
-              break; //bloacked
+              break; //blocked
             }
             candidateMoves.add([newRow, newCol]);
             i++;
           }
         }
         break;
+
       case ChessPieceType.knight:
+
+        // diagonal directions
+        // ...
+
         // all eight possible L shapes the knight can move
         var knightMoves = [
           [-2, -1], //up 2 left 1
           [-2, 1], //up 2 right 1
-          [-1, -2], //up 1 left 1
-          [-1, 2], //up 1 right 1
-          [1, -2], //down 1 left 1
-          [1, -2], //down 1 right 1
+          [-1, -2], //up 1 left 2
+          [-1, 2], //up 1 right 2
+          [1, -2], //down 1 left 2
+          [1, 2], //down 1 right 2
           [2, -1], //down 2 left 1
           [2, 1], //down 2 right 1
         ];
+
         for (var move in knightMoves) {
           var newRow = row + move[0];
           var newCol = col + move[1];
-          if (isInBoard(newRow, newCol)) {
+          if (!isInBoard(newRow, newCol)) {
             continue;
           }
           if (board[newRow][newCol] != null) {
@@ -291,6 +292,7 @@ class _GameBoardState extends State<GameBoard> {
           candidateMoves.add([newRow, newCol]);
         }
         break;
+
       case ChessPieceType.bishop:
         // diagonal directions
         var directions = [
